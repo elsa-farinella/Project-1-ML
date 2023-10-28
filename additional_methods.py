@@ -2,10 +2,47 @@ import numpy as np
 from implementations import *
 import matplotlib.pyplot as plt
 
+
+### helper function to add the bias column in the feature matrix ###
+def build_model_data(data):
+    """Form (y,tX) to get regression data in matrix form."""
+    num_samples = data.shape[0]
+    tx = np.c_[np.ones(num_samples), data]
+    return tx
+
+### split data function ###
+
+def split_data(x, y, ratio, seed=1):
+    np.random.seed(seed)
+    N = len(x)
+    N_tr = int(N * ratio)
+    N_te = N - N_tr
+    idx = np.random.permutation(N)
+    idx_tr = idx[:N_tr]
+    idx_te = idx[N_tr:]
+    x_tr = x[idx_tr]
+    x_te = x[idx_te]
+    y_tr = y[idx_tr]
+    y_te = y[idx_te]
+
+    train_data = np.c_[x_tr, y_tr]
+    test_data = np.c_[x_te, y_te]
+    return train_data, test_data
+
+
+### data normalization ###
+
+def normalize_data(data):
+    mean = np.mean(data, axis=0)
+    std = np.std(data, axis=0)
+    epsilon = 1e-8      # small number to avoid division by zero
+    std[std < epsilon] = epsilon
+    data = (data - mean) / std
+    return data
+
 #### polynomial regression ####
 
 def build_poly(x, degree):
-    """polynomial basis functions for input data x, for j=0 up to j=degree."""
     # this function should return the matrix formed
     # by applying the polynomial basis to the input data
     # ***************************************************
@@ -33,6 +70,13 @@ def polynomial_regression(y, tx, degree, max_iters, gamma, print_=True):
     return w, loss
 
 
+### Additional metrics functions ###
+
+def compute_accuracy(y, tx, w, threshold=0.5):
+    pred_y = np.dot(tx, w)
+    pred_y[pred_y <= threshold] = 0
+    pred_y[pred_y > threshold] = 1
+    return np.sum(pred_y == y) / len(y)
 
 def confusion_matrix(y, tx, w, threshold=0.5):
     pred_y = np.dot(tx, w)
@@ -42,11 +86,8 @@ def confusion_matrix(y, tx, w, threshold=0.5):
     tn = np.sum(pred_y[y == 0] == 0)
     fp = np.sum(pred_y[y == 0] == 1)
     fn = np.sum(pred_y[y == 1] == 0)
-    # plot confusion matrix
     fig, ax = plt.subplots()
-    cmap = plt.get_cmap("Blues")  # Puoi scegliere una colormap a tuo piacimento
-
-    # calcolo il totale dei postivi e dei negativi
+    cmap = plt.get_cmap("Blues") 
     tot_pos = tp + fn
     tot_neg = fp + tn
     im = ax.imshow(np.array([[tp, fp], [fn, tn]]),  cmap=cmap)

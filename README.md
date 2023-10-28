@@ -11,3 +11,5 @@ The code is organized in the following files:
 **impute_all.py** This file generates a csv file that containes the imputed data. It obviously relies on the above-defined method, but it also performs some data preprocessing, that is important since every missing values, both Nan and numerical, has to be put to -1 before that the matrix is sent to the data_imputation fucntion.
 
 **run.py** This file allows the reproduction of the results obtained in AICrowd submission
+
+**DATASET** As said before, the data have been imputed and it took a bit, so there is a .zip folder which contains the imputed train and test set saved as .cvs files.
