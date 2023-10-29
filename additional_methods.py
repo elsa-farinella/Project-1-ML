@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 
 ### helper function to add the bias column in the feature matrix ###
+
 def build_model_data(data):
     """Form (y,tX) to get regression data in matrix form."""
     num_samples = data.shape[0]
