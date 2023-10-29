@@ -9,11 +9,11 @@ def data_imputation(data, max_neighbors, mean_columns, distance_metric=euclidean
     data = np.array(data) 
     imputed_data = data.copy()
 
-    # Get indices of rows with missing values in order to iteare just on them
+    # Identify the indices of rows with missing values to ensure data imputation is applied exclusively to those specific entries.
     missing_rows = np.where((data[:, :] == -1).any(axis=1))[0]
 
     for row_idx in missing_rows:
-        # Get indices of rows who don't have -1 values so we can use them for the imputation
+        # Identify the indices of rows without '-1' values to use them for imputing missing data.
         label_indices = np.where((data[:, :] != -1).all(axis=1))[0]
         # If there are more than max_samples neighbors, select a random subset of them to reduce computation time
         if len(label_indices) > max_samples:
@@ -21,7 +21,7 @@ def data_imputation(data, max_neighbors, mean_columns, distance_metric=euclidean
 
         missing_values = (data[row_idx, :] == -1)  # Identify indexes of missing values in the current row
 
-        # variable useful to keep track of which columns are 'continuous' and so need to be imputed with the mean instead of the mode
+        # We establish a variable to identify 'continuous' columns, which will be imputed using the mean rather than the mode.
         mean_to_be_done = np.isin(np.arange(data.shape[1]), mean_columns)
 
         # Calculate distances between the current row and all neighbors
@@ -34,7 +34,7 @@ def data_imputation(data, max_neighbors, mean_columns, distance_metric=euclidean
         neighbor_values = data[valid_neighbors][:, :]
         imputed_values = imputed_data[row_idx, :]
 
-        # For discrete columns, calculate the mode of neighbor values for each missing value
+        # For columns with discrete data, compute the mode of neighboring values to impute each missing entry
         if np.any(~mean_to_be_done & missing_values):
             for col_idx in np.where(~mean_to_be_done & missing_values)[0]:
                 col_values = neighbor_values[:, col_idx]
@@ -42,7 +42,7 @@ def data_imputation(data, max_neighbors, mean_columns, distance_metric=euclidean
                 mode_idx = np.argmax(counts)
                 imputed_values[col_idx] = unique_values[mode_idx]
 
-        # For continuous columns, calculate the mean of neighbor values for each missing value
+        # For columns with continous data, compute the mean of neighboring values to impute each missing entry
         if np.any(mean_to_be_done & missing_values):
             for col_idx in np.where(mean_to_be_done & missing_values)[0]:
                 col_values = neighbor_values[:, col_idx]
