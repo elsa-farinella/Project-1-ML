@@ -17,9 +17,9 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     loss = compute_MSE(y, tx, w)
     for n_iter in range(max_iters):
-        #compute gradient and loss
+        # Compute gradient and loss
         gradient = compute_gradient(y, tx, w)
-        #update w by gradient
+        # Update w by gradient
         w = w - gamma*gradient
         loss = compute_MSE(y, tx, w)
 
@@ -40,13 +40,13 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
 
     for n_iter in range(max_iters):
-        # select one random data point 
+        # Select one random data point 
         index = np.random.randint(0, len(y), 1)
         y_batch = y[index]
         tx_batch = tx[index]
         gradient = compute_gradient(y_batch, tx_batch, w)
         w = w - gamma*gradient
-        #compute loss
+        # Compute loss
         loss = compute_MSE(y, tx, w)
 
         print(
