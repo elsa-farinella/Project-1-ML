@@ -15,7 +15,7 @@ The code is organized in the following files:
 **DATASET** As said before, the data have been imputed and it took a bit, so there is a .zip folder which contains the imputed train and test set saved as .cvs files.
 
 
-
+--------------------
 The project's codebase is structured across the following files:
 
 **implementations.py**: This file contains all the methods required for implementation, supplemented by auxiliary functions. We defined *compute_MSE* and *compute_gradient* methods to calculate the gradient of the mean squared loss with the respect of the weights of the linear regressor. These helper functions are utilized within the first four main methods.
