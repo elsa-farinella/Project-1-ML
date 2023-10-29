@@ -18,19 +18,19 @@ The code is organized in the following files:
 --------------------
 The project's codebase is structured across the following files:
 
-**implementations.py**: This file contains all the methods required for implementation, supplemented by auxiliary functions. We defined *compute_MSE* and *compute_gradient* methods to calculate the gradient of the mean squared loss with the respect of the weights of the linear regressor. These helper functions are utilized within the first four main methods.
+**implementations.py**: This file contains all the methods we have been instructed to implement, supplemented by auxiliary functions. We defined *compute_MSE* and *compute_gradient* methods to calculate the gradient of the mean squared loss with the respect of the weights of the linear regressor. These helper functions are utilized within the first four main methods.
 
 For the final two methods centered around logistic regression, we introduced:
 
-- sigmoid_function to apply the sigmoid transformation to a given input.
-- compute_logistic_loss to determine the Cross Entropy Loss.
-- compute_logistic_gradient to compute the gradient of the Cross Entropy Loss concerning the regressor weights.
+- *sigmoid_function* to apply the sigmoid transformation to a given input.
+- *compute_logistic_loss* to determine the Cross Entropy Loss.
+- *compute_logistic_gradient* to compute the gradient of the Cross Entropy Loss concerning the regressor weights.
 
 **additional_methods.py**: This file contains supplementary functions used during our experimentation:
 
 - *build_model_data* adds a bias column to a specified feature matrix.
 - *split_data* divides the dataset into training and validation subsets.
-- *normalize_data* aids in data normalization for more consistent convergence.
+- *normalize_data* computes the normalization of data, thereby ensuring more consistent convergence..
 - *polynomial_regression* offers an alternative regression technique for comparative analysis.
 
 We've also integrated metric functions to compute F1 scores, model accuracy, and to plot confusion matrices based on model predictions.
