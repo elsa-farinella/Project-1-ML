@@ -12,7 +12,7 @@ def main(train=True):
         filename = "test_data_imputed.csv"
 
     
-    # we select the columns we want to keep
+    # We select the columns we want to keep
     data = np.genfromtxt(path_dataset,
                         delimiter=",",
                         skip_header=1,
@@ -21,8 +21,9 @@ def main(train=True):
                         #27, 31, 33, 38, 39, 40, 49, 51, 53, 61, 70, 88, 261, 266, 277, 278
                         #27, 35, 40, 49, 250, 28, 261, 266, 306, 259
 
-    # Preprocessing of the data. This key step consists in replacing the missing values with -1, both Nan and numerical values that 
-    # do not have a meaning according the codebook. We also scale the data and change some values so that every 'No' is encoded as '0' and every 'Yes' as '1'.
+    # Preprocessing of the data: this key step consists in replacing the missing values with -1, both Nan and numerical values, that 
+    # do not have a meaning according the codebook.
+    # Additionally, the data is scaled for uniformity, and categorical values such as 'No' and 'Yes' are encoded as '0' and '1', respectively.
 
     data[np.isnan(data)] = -1
 
@@ -135,12 +136,13 @@ def main(train=True):
     data[:, 34][data[:, 34] > 2] = -1
     data[:, 34][data[:, 34] == 2] = 0
 
-    # we define a vector with the index of columns on which we want to do the mean
+    # We define a vector containing the indices of columns for which we intend to compute the mean during data imputation. 
     continuous_columns = [0, 3, 8, 9, 14, 15, 16, 17, 31, 33]
 
     data = data_imputation(data, 100, continuous_columns)
 
-    # since the imputation process requires several minutes (more than 45), we think it's better to save the imputed data in a csv file
+    # Due to the extended duration of the imputation process —surpassing 45 minutes— it is prudent to store the imputed data in a CSV file.
+    # This allows for immediate utilization without the need to await the completion of future data imputations.
     np.savetxt(filename, data, delimiter=",")
 
 
