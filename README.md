@@ -48,7 +48,8 @@ As said before the already imputed data are present in the 'DATASET.zip' folder.
 - Matplotlib
 
 # Selected features 
-- *_STATE*: State of residence (numerical variable)
+The following list comprises the features utilized in our project, along with their respective types and brief descriptions.
+- _STATE: State of residence (numerical variable)
 - GENHLTH: Self-evaluation of health (numerical variable)
 - PHYSHLTH: Days of phisical illness in the last 30 days (numerical variable)
 - MENTHLTH: Days of mental illness in the last 30 days (numerical variable)
