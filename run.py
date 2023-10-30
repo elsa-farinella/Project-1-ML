@@ -30,7 +30,7 @@ def main():
     val_y = val_data[:, -1]
 
     # Before processing the training data similarly, we remove some rows to ensure a balanced dataset for model training.
-    keep_percentage = 0.36
+    keep_percentage = 0.32  # we explain why in the report
     np.random.seed(13)
     # We compute the number of zero rows to keep, adn we save the non-zero ones
     zero_rows = train_data[train_data[:, -1] == -0]
