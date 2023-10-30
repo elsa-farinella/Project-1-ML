@@ -2,13 +2,14 @@ from data_imputation import *
 import numpy as np
 
 
+# We define a parameter train, which is True if we want to impute the training data, and False if we want to impute the test data. The default value is True.
 def main(train=True):
     # We store the paths of original dataset and labels
     if train:
-        path_dataset = "/home/rfaro/anaconda3/EPFL_ML/Project1/dataset_to_release/x_train.csv"
+        path_dataset = "DATASET/x_train.csv"
         filename = "train_data_imputed.csv"
     else:
-        path_dataset = "/home/rfaro/anaconda3/EPFL_ML/Project1/dataset_to_release/x_test.csv"
+        path_dataset = "DATASET/x_test.csv"
         filename = "test_data_imputed.csv"
 
     
