@@ -40,7 +40,10 @@ We've also integrated metric functions to compute F1 scores, model accuracy, and
 **report.pdf**: This document is a comprehensive explanation of the decisions taken and the methodology employed throughout this project
 
 # Instructions on how to replicate our results  
-As said before the already imputed data are present in the 'DATASET.zip' folder. After having extracted the folder it will be necessary the train labels in the same DATASET folder. However, it's still possible to impute the data from scratch, putting in the DATASET folder also the 'x_train.csv' and 'x_test.csv' files. After having added this files in the DATASET folder it will just be necessary to run the 'impute_all.py' script twice: firts with the 'train' parameter set to True (this will generate the file 'train_data_imputed.csv') and then, setting it to False (this will generate the file 'train_data_imputed.csv'). After that, it will just be necessary to put this two files in the DATASET folder and everything will work as before.
+
+As previously mentioned, the imputed data can be found within the 'DATASET.zip' folder. Upon extracting this folder, it is essential to place the training labels within the same DATASET folder. Alternatively, if you wish to re-impute the data from scratch, you can do so by including the 'x_train.csv' and 'x_test.csv' files in the DATASET folder.
+
+To perform the imputation, run the 'impute_all.py' script twice. First, set the 'train' parameter to True, which will generate the 'train_data_imputed.csv' file. Then, set it to False, resulting in the creation of the 'test_data_imputed.csv' file. Once these two files are generated, simply place them in the DATASET folder, and your setup will be complete and functional as before.
 
 ## Requirements 
 - Python==
