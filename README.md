@@ -47,4 +47,41 @@ As said before the already imputed data are present in the 'DATASET.zip' folder.
 - Numpy==
 - Matplotlib
 
+# Selected features 
+- *_STATE*: State of residence (numerical variable)
+- GENHLTH: Self-evaluation of health (numerical variable)
+- PHYSHLTH: Days of phisical illness in the last 30 days (numerical variable)
+- MENTHLTH: Days of mental illness in the last 30 days (numerical variable)
+- HLTHPLN1: Health care coverage (binary variable)
+- PERSDOC2: Personal healthcare provider (binary variable)
+- MEDCOST: Missed doctor visit due to cost in the past 12 months (binary variable)
+- CHECKUP1: Time since last routine checkup with a doctor (categorical variable)
+- BPHIGH4: Awareness of high blood pressure (binary variable)
+- CHOLCHK: Time since last blood cholesterol check (categorical variable)
+- TOLDHI2: Awareness of high blood cholesterol (binary variable)
+- CVDSTRK3: Ever had a stroke (binary variable)
+- ASTHMA3: Ever had asthma (binary variable)
+- CHCSCNCR: Ever had a skin cancer (binary variable)
+- CHCOCNCR: Ever had any other type of cancer (binary variable)
+- CHCCOPD1: Ever had Chronic Obstructive Pulmonary Disease or COPD, emphysema or chronic bronchitis (binary variable)
+- HAVARTH3: Ever had some form of arthritis, rheumatoid arthritis, gout, lupus, or fibromyalgia (binary variable)
+- ADDEPEV2: Ever suffer from depressive disorder, including depression, major depression, dysthymia, or minor depression (binary variable)
+- CHCKIDNY: Ever had kidney disease (binary variable)
+- DIABETE3: Awareness of diabetes (binary variable)
+- SEX: Gender of the respondent
+- EDUCA: Highest grade or year of school completed (categorical variable)
+- INCOME2: Annual household income from all sources (categorical variable)
+- QLACTLM2: Limitations due to physical, mental, or emotional issues (binary variable)
+- DIFFWALK: Difficulty walking or using stairs (binary variable)
+- EXERANY2: Participation in non-job-related physical activities in the past month (binary variable)
+- CIMEMLOS: Increased or worsening confusion or memory loss in the past 12 months (binary variable)
+- DRADVISE: Doctor's advice to reduce sodium/salt intake (binary variable)
+- _AGE65YR: Two-level age category (binary variable)
+- _BMI5CAT: Four-categories of Body Mass Index (categorical variable)
+- _RFSMOK3: Current smokers (binary variable)
+- _RFDRHV5: Heavy drinkers (binary variable)
+- _FRUTSUM: Total fruits consumed per day (numerical variable)
+- _VEGESUM: Total vegetables consumed per day (numerical variable)
+- _PAINDX1: Physical Activity Index (binary variable)
+
 
