@@ -1,8 +1,8 @@
 # ML PROJECT 1 
 
 # Team
-- Team name: 
-- Team member:
+- **Team name**: 
+- **Team member**:
     - Elsa Farinella, SCIPER: 377583
     - Robin Faro, SCIPER:
     - Marco Scialanga, SCIPER: 369469
