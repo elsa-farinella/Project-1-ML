@@ -33,7 +33,7 @@ We've also integrated metric functions to compute F1 scores, model accuracy, and
 
 **impute_all.py**: This script produces a .csv file filled with imputed data. It utilizes the previously mentioned imputation method and also conducts essential data preprocessing. It's essential to note that all missing values, whether they are NaN or numerical, are set to -1 before the matrix undergoes the data imputation process.
 
-**run.py**: This file allows the reproduction of the results obtained in AICrowd submission (submission ID: 243942)
+**run.py**: This file allows the reproduction of the results obtained in AICrowd submission (ID submission: 243942)
 
 **DATASET**: Due to the lengthy execution times of data imputation, the imputed datasets (both training and testing) are stored in a .zip folder, available in .csv format.
 
@@ -47,8 +47,7 @@ To perform the imputation, run the 'impute_all.py' script twice. First, set the 
 
 ## Requirements 
 - Python = 3.9.13
-- Numpy == 
-- Matplotlib
+- Numpy = 1.26.0
 
 # Selected features 
 The following list comprises the features utilized in our project, along with their respective types and brief descriptions.
