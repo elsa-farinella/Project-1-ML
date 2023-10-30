@@ -94,15 +94,16 @@ def best_lambda_degree (y, tx, k_fold, lambdas, degree_values, seed):
             rmse_te.append(np.mean(rmse_te1))
 
         # Find the lambda that gave the lowest RMSE for the current degree.
-        indice_lambda = np.argmin(rmse_te)
-        best_lambdas.append ( lambdas[indice_lambda])
-        best_rmses.append( rmse_te[indice_lambda])
+        index_lambda = np.argmin(rmse_te)
+        best_lambdas.append (lambdas[index_lambda])
+        best_rmses.append( rmse_te[index_lambda])
 
     # Find the degree (and corresponding lambda) that produced the lowest RMSE.
-    indice_deg = np.argmin(best_rmses)
-    return  best_lambdas[indice_deg],degrees[indice_deg]
-    
-def ridge_regression_cross_validation ( y,tx, k, lambdas, degrees) : 
+    index_deg = np.argmin(best_rmses)
+    return  best_lambdas[index_deg],degrees[index_deg]
+
+
+def ridge_regression_cross_validation (y, tx, k, lambdas, degrees) : 
     seed = 1
     k_indices = generate_k_fold_indices (y, k, seed)
     lambda_, degree = best_lambda_degree(y,tx,k, lambdas, degrees,seed)
