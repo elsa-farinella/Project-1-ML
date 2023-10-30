@@ -24,7 +24,7 @@ def generate_k_fold_indices(y, k_folds, seed):
     return np.array(fold_indices)
 
 
-def cross_validation (y,tx, fold_indices, current_fold, lambda_):
+def cross_validation(y, tx, fold_indices, current_fold, lambda_, gamma, max_iters):
     # Extract indices for the test set from the current fold.
     test_indices = fold_indices[current_fold]
 
@@ -39,16 +39,17 @@ def cross_validation (y,tx, fold_indices, current_fold, lambda_):
     tx_test = tx[test_indices]
     tx_train = tx[train_indices]
     
-    # Perform ridge regression on the training set.
-    w, train_loss = ridge_regression(y_train, tx_train, lambda_)
+    # Perform regularized ridge regression on the training set.
+    w, train_loss = reg_logistic_regression(y_train, tx_train, lambda_, initial_w, max_iters, gamma)
+    
     
     # Calculate the loss on the test set using the learned weights (without re-training).
-    _, test_loss = ridge_regression(y_test, tx_test, lambda_)
+    _, test_loss = calculate_loss(y_test, tx_test, w)
     
     return train_loss, test_loss, w
 
 
-def cross_validation_loop(y, tx, k_fold, lambda_, degree, seed):
+def cross_validation_loop(y, tx, k_fold, lambda_, seed, gamma, max_iters):
     # Generate the indices for k-fold cross-validation.
     k_indices = generate_k_fold_indices(y, k_fold, seed)
 
@@ -56,13 +57,10 @@ def cross_validation_loop(y, tx, k_fold, lambda_, degree, seed):
     rmse_tr = []
     rmse_te = []
 
-    # Perform polynomial expansion on the feature matrix.
-    tx_poly = build_poly(tx, degree)
-    
     # Loop over each fold.
     for k in range(k_fold):
         # Perform cross-validation for the current fold.
-        loss_tr, loss_te, _ = cross_validation(y, tx_poly, fold_indices, current_fold, lambda_)
+        loss_tr, loss_te, _ = cross_validation(y, tx, k_indices, k, lambda_, gamma, max_iters)
         
         # Convert losses to RMSE and append to the respective lists.
         rmse_tr.append(np.sqrt(2 * loss_tr))
@@ -75,39 +73,28 @@ def cross_validation_loop(y, tx, k_fold, lambda_, degree, seed):
     return avg_rmse_tr, avg_rmse_te
 
 
-def best_lambda_degree (y, tx, k_fold, lambdas, degree_values, seed):
+def best_lambda(y, tx, k_fold, lambdas, seed, gamma, max_iters):
     k_indices = generate_k_fold_indices(y, k_fold, seed)
-    best_lambdas = [] # List to store the best lambda for each degree.
-    best_rmse = []    # List to store the RMSE associated with the best lambda for each degree.
+    best_rmse = float('inf')
+    best_lambda = None
 
-    # For each polynomial degree, find the best lambda.
-    for degree in degree_values : 
-        rmse_te = []
+    for lambda_ in lambdas:
+        rmse_te_total = 0
+        for k in range(k_fold):
+            _, loss_te, _ = cross_validation(y, tx, k_indices, k, lambda_, gamma, max_iters)
+            rmse_te_total += np.sqrt(2 * loss_te)
+        
+        rmse_te_avg = rmse_te_total / k_fold
 
-        for lambda_ in lambdas : 
-            rmse_te1 = []
-            for k in range(k_fold): 
-                _, loss_te,_ = cross_validation (y, tx, fold_indices, current_fold, lambda_)
-                rmse_te1.append(loss_te)
-                
-            # Compute average RMSE for the current lambda across all folds.
-            rmse_te.append(np.mean(rmse_te1))
-
-        # Find the lambda that gave the lowest RMSE for the current degree.
-        index_lambda = np.argmin(rmse_te)
-        best_lambdas.append (lambdas[index_lambda])
-        best_rmses.append( rmse_te[index_lambda])
-
-    # Find the degree (and corresponding lambda) that produced the lowest RMSE.
-    index_deg = np.argmin(best_rmses)
-    return  best_lambdas[index_deg],degrees[index_deg]
+        if rmse_te_avg < best_rmse:
+            best_rmse = rmse_te_avg
+            best_lambda = lambda_
+            
+    return best_lambda
 
 
-def ridge_regression_cross_validation (y, tx, k_folds, lambdas, degrees) : 
-    seed = 1
-    fold_indices = generate_k_fold_indices (y, k_folds, seed)
-    lambda_, degree = best_lambda_degree(y, tx, k_folds, lambdas, degrees, seed)
-    tx = build_poly (tx, degree)
-    w,loss = ridge_regression(y, tx, lambda_)
-    return w, loss, degree
-    
+def reg_logistic_regression_cross_validation(y, tx, k_folds, lambdas, gamma, max_iters):
+    best_lambda_val = best_lambda(y, tx, k_folds, lambdas, seed, gamma, max_iters)
+    w, loss = reg_logistic_regression(y, tx, best_lambda_val, initial_w, max_iters, gamma)
+    return w, loss, best_lambda_val
+   
