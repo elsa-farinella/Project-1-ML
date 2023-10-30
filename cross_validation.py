@@ -75,24 +75,30 @@ def cross_validation_loop(y, tx, k_fold, lambda_, degree, seed):
     return avg_rmse_tr, avg_rmse_te
 
 
-def best_lambda_degree (y, tx,k_fold, lambdas, degrees,seed):
+def best_lambda_degree (y, tx, k_fold, lambdas, degree_values, seed):
     k_indices = generate_k_fold_indices(y, k_fold, seed)
-    best_lambdas = []
-    best_rmses   = []
-    #for each degree, save lambdas 
-    for degree in degrees : 
+    best_lambdas = [] # List to store the best lambda for each degree.
+    best_rmse = []    # List to store the RMSE associated with the best lambda for each degree.
+
+    # For each polynomial degree, find the best lambda.
+    for degree in degree_values : 
         rmse_te = []
+
         for lambda_ in lambdas : 
             rmse_te1 = []
             for k in range(k_fold): 
                 _, loss_te,_ = cross_validation (y, tx, fold_indices, current_fold, lambda_)
                 rmse_te1.append(loss_te)
+                
+            # Compute average RMSE for the current lambda across all folds.
             rmse_te.append(np.mean(rmse_te1))
-        
+
+        # Find the lambda that gave the lowest RMSE for the current degree.
         indice_lambda = np.argmin(rmse_te)
         best_lambdas.append ( lambdas[indice_lambda])
         best_rmses.append( rmse_te[indice_lambda])
-    
+
+    # Find the degree (and corresponding lambda) that produced the lowest RMSE.
     indice_deg = np.argmin(best_rmses)
     return  best_lambdas[indice_deg],degrees[indice_deg]
     
