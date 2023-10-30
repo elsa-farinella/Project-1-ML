@@ -1,7 +1,7 @@
 # ML PROJECT 1 
 
 # Team
-- **Team name**: BetterthanPoli
+- **Team name**: BetterThanPoli
 - **Team member**:
     - Elsa Farinella, SCIPER: 377583
     - Robin Faro, SCIPER: 370950
@@ -33,7 +33,7 @@ We've also integrated metric functions to compute F1 scores, model accuracy, and
 
 **impute_all.py**: This script produces a .csv file filled with imputed data. It utilizes the previously mentioned imputation method and also conducts essential data preprocessing. It's essential to note that all missing values, whether they are NaN or numerical, are set to -1 before the matrix undergoes the data imputation process.
 
-**run.py**: This file allows the reproduction of the results obtained in AICrowd submission (ID submission: )
+**run.py**: This file allows the reproduction of the results obtained in AICrowd submission (ID submission: 243942)
 
 **DATASET**: Due to the lengthy execution times of data imputation, the imputed datasets (both training and testing) are stored in a .zip folder, available in .csv format.
 
@@ -46,8 +46,8 @@ As previously mentioned, the imputed data can be found within the 'DATASET.zip' 
 To perform the imputation, run the 'impute_all.py' script twice. First, set the 'train' parameter to True, which will generate the 'train_data_imputed.csv' file. Then, set it to False, resulting in the creation of the 'test_data_imputed.csv' file. Once these two files are generated, simply place them in the DATASET folder, and your setup will be complete and functional as before.
 
 ## Requirements 
-- Python==
-- Numpy==
+- Python = 3.9.13
+- Numpy == 
 - Matplotlib
 
 # Selected features 
