@@ -103,11 +103,11 @@ def best_lambda_degree (y, tx, k_fold, lambdas, degree_values, seed):
     return  best_lambdas[index_deg],degrees[index_deg]
 
 
-def ridge_regression_cross_validation (y, tx, k, lambdas, degrees) : 
+def ridge_regression_cross_validation (y, tx, k_folds, lambdas, degrees) : 
     seed = 1
-    k_indices = generate_k_fold_indices (y, k, seed)
-    lambda_, degree = best_lambda_degree(y,tx,k, lambdas, degrees,seed)
+    fold_indices = generate_k_fold_indices (y, k_folds, seed)
+    lambda_, degree = best_lambda_degree(y, tx, k_folds, lambdas, degrees, seed)
     tx = build_poly (tx, degree)
-    w,loss = ridge_regression(y,tx,lambda_)
-    return w,loss, degree
+    w,loss = ridge_regression(y, tx, lambda_)
+    return w, loss, degree
     
