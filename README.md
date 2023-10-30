@@ -22,7 +22,7 @@ For the final two methods centered around logistic regression, we introduced:
 
 - *build_model_data* adds a bias column to a specified feature matrix.
 - *split_data* divides the dataset into training and validation subsets.
-- *normalize_data* computes the normalization of data, thereby ensuring more consistent convergence..
+- *normalize_data* computes the normalization of data, thereby ensuring more consistent convergence.
 - *polynomial_regression* offers an alternative regression technique for comparative analysis.
 
 We've also integrated metric functions to compute F1 scores, model accuracy, and to plot confusion matrices based on model predictions.
@@ -31,13 +31,15 @@ We've also integrated metric functions to compute F1 scores, model accuracy, and
 
 **impute_all.py**: This script produces a .csv file filled with imputed data. It utilizes the previously mentioned imputation method and also conducts essential data preprocessing. It's essential to note that all missing values, whether they are NaN or numerical, are set to -1 before the matrix undergoes the data imputation process.
 
-**run.py**: This file allows the reproduction of the results obtained in AICrowd submission
+**run.py**: This file allows the reproduction of the results obtained in AICrowd submission (ID submission: )
 
 **DATASET**: Due to the lengthy execution times of data imputation, the imputed datasets (both training and testing) are stored in a .zip folder, available in .csv format.
 
 # Instruction on how to run 
 
 ## Requirements 
-- Python
-- Numpy
-- Matplotlib
+- Python==
+- Numpy==
+- Matplotlib==
+
+
