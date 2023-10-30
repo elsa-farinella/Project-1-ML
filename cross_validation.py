@@ -24,7 +24,7 @@ def generate_k_fold_indices(y, k_folds, seed):
     return np.array(fold_indices)
 
 
-def cross_validation (y,tx, fold_indices, current_fold, lambda_ ):
+def cross_validation (y,tx, fold_indices, current_fold, lambda_):
     # Extract indices for the test set from the current fold.
     test_indices = fold_indices[current_fold]
 
@@ -40,36 +40,43 @@ def cross_validation (y,tx, fold_indices, current_fold, lambda_ ):
     tx_train = tx[train_indices]
     
     # Perform ridge regression on the training set.
-    w, train_loss = ridge_regression(target_train, data_train, regularization_param)
+    w, train_loss = ridge_regression(y_train, tx_train, lambda_)
     
     # Calculate the loss on the test set using the learned weights (without re-training).
-    _, test_loss = ridge_regression(target_test, data_test, regularization_param)
+    _, test_loss = ridge_regression(y_test, tx_test, lambda_)
     
     return train_loss, test_loss, w
 
 
 def cross_validation_loop(y, tx, k_fold, lambda_, degree, seed):
-    """Compute the average training and test RMSE for a given lambda and degree."""
-    k_indices = build_k_indices(y, k_fold, seed)
+    # Generate the indices for k-fold cross-validation.
+    k_indices = generate_k_fold_indices(y, k_fold, seed)
+
+    # Lists to store the RMSE values for each fold.
     rmse_tr = []
     rmse_te = []
-    
-    # Create polynomial features for the data
+
+    # Perform polynomial expansion on the feature matrix.
     tx_poly = build_poly(tx, degree)
     
+    # Loop over each fold.
     for k in range(k_fold):
-        loss_tr, loss_te, _ = cross_validation(y, tx_poly, k_indices, k, lambda_)
+        # Perform cross-validation for the current fold.
+        loss_tr, loss_te, _ = cross_validation(y, tx_poly, fold_indices, current_fold, lambda_)
+        
+        # Convert losses to RMSE and append to the respective lists.
         rmse_tr.append(np.sqrt(2 * loss_tr))
         rmse_te.append(np.sqrt(2 * loss_te))
-    
+        
     # Compute the average RMSE values over all k-folds
     avg_rmse_tr = np.mean(rmse_tr)
     avg_rmse_te = np.mean(rmse_te)
     
     return avg_rmse_tr, avg_rmse_te
-    
+
+
 def best_lambda_degree (y, tx,k_fold, lambdas, degrees,seed):
-    k_indices = build_k_indices(y, k_fold, seed)
+    k_indices = generate_k_fold_indices(y, k_fold, seed)
     best_lambdas = []
     best_rmses   = []
     #for each degree, save lambdas 
@@ -78,7 +85,7 @@ def best_lambda_degree (y, tx,k_fold, lambdas, degrees,seed):
         for lambda_ in lambdas : 
             rmse_te1 = []
             for k in range(k_fold): 
-                _, loss_te,_ = cross_validation (y, tx, k_indices, k, lambda_)
+                _, loss_te,_ = cross_validation (y, tx, fold_indices, current_fold, lambda_)
                 rmse_te1.append(loss_te)
             rmse_te.append(np.mean(rmse_te1))
         
@@ -91,7 +98,7 @@ def best_lambda_degree (y, tx,k_fold, lambdas, degrees,seed):
     
 def ridge_regression_cross_validation ( y,tx, k, lambdas, degrees) : 
     seed = 1
-    k_indices = build_k_indices ( y, k, seed)
+    k_indices = generate_k_fold_indices (y, k, seed)
     lambda_, degree = best_lambda_degree(y,tx,k, lambdas, degrees,seed)
     tx = build_poly (tx, degree)
     w,loss = ridge_regression(y,tx,lambda_)
