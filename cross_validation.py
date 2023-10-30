@@ -44,7 +44,7 @@ def cross_validation(y, tx, fold_indices, current_fold, lambda_, gamma, max_iter
     
     
     # Calculate the loss on the test set using the learned weights (without re-training).
-    _, test_loss = calculate_loss(y_test, tx_test, w)
+    _, test_loss = compute_logistic_loss(y_test, tx_test, w)
     
     return train_loss, test_loss, w
 
