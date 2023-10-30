@@ -35,7 +35,7 @@ We've also integrated metric functions to compute F1 scores, model accuracy, and
 
 **DATASET**: Due to the lengthy execution times of data imputation, the imputed datasets (both training and testing) are stored in a .zip folder, available in .csv format.
 
-# Instruction on how to run 
+# Instructions on how to run 
 
 ## Requirements 
 - Python==
