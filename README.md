@@ -5,7 +5,7 @@
 - Team member:
     - Elsa Farinella, SCIPER: 377583
     - Robin Faro, SCIPER:
-    - Marco Scialanga, SCIPER: 
+    - Marco Scialanga, SCIPER: 369469
 
 # Codebase
 The project's codebase is structured across the following files:
