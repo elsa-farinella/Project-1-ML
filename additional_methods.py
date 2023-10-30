@@ -116,6 +116,76 @@ def polynomial_regression(y, tx, degree, max_iters, gamma, print_=True):
 
     return w, loss
 
+def generate_k_fold_indices(y, k_folds, seed):
+    
+    # Calculate the total number of data points.
+    total_data_points = y.shape[0]
+    
+    # Calculate the number of data points in each fold.
+    data_points_per_fold = int(total_data_points / k_folds)
+    
+    # Set the random seed for reproducibility.
+    np.random.seed(seed)
+    
+    # Generate a random permutation of all indices.
+    shuffled_indices = np.random.permutation(total_data_points)
+    
+    # Split the shuffled indices into 'k_folds' consecutive subsets.
+    fold_indices = [shuffled_indices[k * data_points_per_fold: (k + 1) * data_points_per_fold]
+                    for k in range(k_folds)]
+    
+    return np.array(fold_indices)
+
+def cross_validation(y, data, max_iters, gamma):
+
+    k_folds = 10
+    k_indices = generate_k_fold_indices(y, k_folds, 13)
+
+    percentages = np.arange(0.2, 0.5 , 0.01)  # Array delle percentuali da provare
+    #percentages = np.arange(0.2, 0.5 , 0.1)  # Array delle percentuali da provare
+    F1S = np.zeros([k_folds, len(percentages)])
+    print("F1S shape: ", F1S.shape)
+
+    for k in range(k_folds):
+        test_indices = k_indices[k]
+
+        # Extract indices for the training set by excluding the current fold.
+        train_indices = k_indices[~(np.arange(k_indices.shape[0]) == k)].reshape(-1)
+
+        # Partition the target data into training and test sets.
+        val_y = y[test_indices]
+        train_y = y[train_indices]
+        
+        # Partition the feature data into training and test sets.
+        val_x = data[test_indices]
+        train_x= data[train_indices]
+        train_data = np.concatenate((train_x, train_y.reshape(-1, 1)), axis=1)
+
+
+        for j, percentage in enumerate(percentages):
+            keep_percentage = percentage
+            np.random.seed(13)
+            zero_rows = train_data[train_data[:, -1] == -0]
+            non_zero_rows = train_data[train_data[:, -1] != -0]
+            num_rows_to_keep = int(len(zero_rows) * keep_percentage)
+            selected_rows = np.random.choice(zero_rows.shape[0], num_rows_to_keep, replace=False)
+            filtered_data = zero_rows[selected_rows]
+            filtered_data = np.concatenate((filtered_data, non_zero_rows), axis=0)
+            train_x = filtered_data[:, :-1]
+            train_y = filtered_data[:, -1]
+            train_x_normalized = normalize_data(train_x)
+            val_x_normalized = normalize_data(val_x)
+            train_tx = build_model_data(train_x_normalized)
+            val_tx = build_model_data(val_x_normalized)
+            initial_w = np.full(train_tx.shape[1], -1)
+            w, loss = logistic_regression(train_y, train_tx, initial_w, max_iters, gamma, False)
+            f1 = compute_f1_logistic(val_y, val_tx, w)
+            print("K: ", k, "percentage: ", percentage)
+            print("F1 score: ", f1)
+            F1S[k, j] = f1
+
+    return F1S
+
 
 # Additional metrics functions 
 
