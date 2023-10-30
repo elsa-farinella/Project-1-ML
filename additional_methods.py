@@ -72,6 +72,9 @@ def polynomial_regression(y, tx, degree, max_iters, gamma, print_=True):
 
 
 ### Additional metrics functions ###
+# We introduced the 'threshold' parameter to the functions in response to the data's notable skew towards negative values. 
+# This adjustment aims to promote a more balanced prediction from the model. 
+# However, adjusting the threshold did not provide significant improvements, so it was ultimately left at the conventional value of 0.5.
 
 def compute_accuracy(y, tx, w, threshold=0.5):
     pred_y = np.dot(tx, w)
