@@ -3,27 +3,49 @@ from implementations import *
 from additional_methods import *
 
 
-def build_k_indices (y, k_fold, seed):
-    """build k indices for k-fold."""
-    num_row = y.shape[0]
-    interval = int(num_row / k_fold)
+def generate_k_fold_indices(y, k_folds, seed):
+    
+    # Calculate the total number of data points.
+    total_data_points = y.shape[0]
+    
+    # Calculate the number of data points in each fold.
+    data_points_per_fold = int(total_data_points / k_folds)
+    
+    # Set the random seed for reproducibility.
     np.random.seed(seed)
-    indices = np.random.permutation(num_row)
-    k_indices = [indices[k * interval: (k + 1) * interval]
-                 for k in range(k_fold)]
-    return np.array(k_indices)
+    
+    # Generate a random permutation of all indices.
+    shuffled_indices = np.random.permutation(total_data_points)
+    
+    # Split the shuffled indices into 'k_folds' consecutive subsets.
+    fold_indices = [shuffled_indices[k * data_points_per_fold: (k + 1) * data_points_per_fold]
+                    for k in range(num_folds)]
+    
+    return np.array(fold_indices)
 
-def cross_validation (y,tx, k_indices, k, lambda_ ):
-    te_ind = k_indices[k]
-    tr_ind = k_indices[~(np.arange(k_indices.shape[0])==k)]
-    tr_ind = tr_ind.reshape(-1)
-    y_te   = y[te_ind]
-    y_tr   = y[tr_ind]
-    tx_te  = tx[te_ind]
-    tx_tr  = tx[tr_ind]
-    w,loss_tr = ridge_regression(y_tr, tx_tr, lambda_)
-    _,loss_te = ridge_regression(y_te,tx_te, lambda_)
-    return loss_tr, loss_te,w
+
+def cross_validation (y,tx, fold_indices, current_fold, lambda_ ):
+    # Extract indices for the test set from the current fold.
+    test_indices = fold_indices[current_fold]
+
+    # Extract indices for the training set by excluding the current fold.
+    train_indices = fold_indices[~(np.arange(fold_indices.shape[0]) == current_fold)].reshape(-1)
+
+    # Partition the target data into training and test sets.
+    y_test = y[test_indices]
+    y_train = y[train_indices]
+    
+    # Partition the feature data into training and test sets.
+    tx_test = tx[test_indices]
+    tx_train = tx[train_indices]
+    
+    # Perform ridge regression on the training set.
+    w, train_loss = ridge_regression(target_train, data_train, regularization_param)
+    
+    # Calculate the loss on the test set using the learned weights (without re-training).
+    _, test_loss = ridge_regression(target_test, data_test, regularization_param)
+    
+    return train_loss, test_loss, w
 
 
 def cross_validation_loop(y, tx, k_fold, lambda_, degree, seed):
