@@ -1,10 +1,10 @@
 # ML PROJECT 1 
 
 # Team
-- **Team name**: 
+- **Team name**: BetterthanPoli
 - **Team member**:
     - Elsa Farinella, SCIPER: 377583
-    - Robin Faro, SCIPER:
+    - Robin Faro, SCIPER: 370950
     - Marco Scialanga, SCIPER: 369469
 
 # Codebase
@@ -35,11 +35,13 @@ We've also integrated metric functions to compute F1 scores, model accuracy, and
 
 **DATASET**: Due to the lengthy execution times of data imputation, the imputed datasets (both training and testing) are stored in a .zip folder, available in .csv format.
 
-# Instructions on how to run 
+**report.pdf**: This document is a comprehensive explanation of the decisions taken and the methodology employed throughout this project
+
+# Instructions on how to replicate our results  
 
 ## Requirements 
 - Python==
 - Numpy==
-- Matplotlib==
+- Matplotlib
 
 
