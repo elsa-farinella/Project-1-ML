@@ -22,8 +22,10 @@ For the final two methods centered around logistic regression, we introduced:
 
 - *build_model_data* adds a bias column to a specified feature matrix.
 - *split_data* divides the dataset into training and validation subsets.
+- *load_test* is just an helper function used to load the imputed test set.
 - *normalize_data* computes the normalization of data, thereby ensuring more consistent convergence.
 - *polynomial_regression* offers an alternative regression technique for comparative analysis.
+- *cross_validation* is a function that looks for the best percentage of rows to keep, using K-Fold Cross Validation algorithm.
 
 We've also integrated metric functions to compute F1 scores, model accuracy, and to plot confusion matrices based on model predictions.
 
