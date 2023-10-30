@@ -6,8 +6,8 @@ import numpy as np
 def main():
     # First of all we define two variables in which we store the paths of the dataset and the labels
     # The data are stored in a csv file we created through the script data_imputation.py. Read the README.md file for more information
-    path_dataset = "/Users/robinfaro/Desktop/ML_EPFL/Project1/train_data_imputed.csv"
-    path_labels = "/Users/robinfaro/Desktop/ML_EPFL/Project1/dataset_to_release/y_train.csv"
+    path_dataset = "DATASET/train_data_imputed.csv"
+    path_labels = "DATASET/y_train.csv"
 
     data = np.genfromtxt(path_dataset, delimiter=",")
 
