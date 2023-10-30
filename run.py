@@ -1,6 +1,7 @@
 from implementations import *
 from additional_methods import *
 import numpy as np
+from helpers import *
 
 
 def main():
@@ -60,7 +61,17 @@ def main():
     f1 = compute_f1_logistic(val_y, val_tx, w)
     print("F1 score: ", f1)
     accuracy = compute_accuracy(val_y, val_tx, w)
-    print("Accuracy: ", accuracy)
+    print("Validation Accuracy: ", accuracy)
+    # We create the csv file for the submission
+    x_test = load_test()
+    x_test_normalized = normalize_data(x_test)
+    tx_test = build_model_data(x_test_normalized)
+    y_test = sigmoid(tx_test.dot(w))
+    y_test[y_test >= 0.5] = 1
+    y_test[y_test < 0.5] = -1
+    ids = np.arange(328135, 437514)
+    create_csv_submission(ids, y_test, "submission.csv")
+    #Finally we plot the confusion matrix computed on the validation set
     confusion_matrix(val_y, val_tx, w)
 
 
